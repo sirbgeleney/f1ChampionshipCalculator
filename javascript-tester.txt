@@ -1,0 +1,58 @@
+// Function to calculate if the leading team has mathematically won the championship
+function calculateChampionship() {
+  // Display title screen
+  alert("F1 Mathematical Championship Calculator");
+
+  // Get the number of races completed
+  const racesCompleted = parseInt(prompt("Enter the number of races completed:"));
+
+  // Get the total number of races in the season
+  const totalRaces = parseInt(prompt("Enter the total number of races in the season:"));
+
+  // Get the number of teams
+  const numTeams = parseInt(prompt("Enter the number of teams:"));
+
+  // Object to store team names and their current points
+  const teams = {};
+
+  // Get information about the leading team (Team 1)
+  const leadingTeamName = prompt("Enter the name of the leading team (Team 1):");
+  const leadingTeamPoints = parseInt(prompt(`Enter the points for ${leadingTeamName}:`));
+  teams[leadingTeamName] = leadingTeamPoints;
+
+  // Display information for the leading team
+  alert(`Team: ${leadingTeamName} - Points: ${leadingTeamPoints}`);
+
+  // Object to store chasing teams
+  const chasingTeams = {};
+
+  // Loop to gather information about chasing teams
+  for (let i = 2; i <= numTeams; i++) {
+    const teamName = prompt(`Enter the name of Chasing Team ${i}:`);
+    const points = parseInt(prompt(`Enter the points for ${teamName}:`));
+
+    chasingTeams[teamName] = points;
+    // Display information for each chasing team
+    alert(`Team: ${teamName} - Points: ${points}`);
+  }
+
+  // Calculate the maximum possible points for each team
+  const maxPoints = {};
+  for (const team in chasingTeams) {
+    const remainingRaces = totalRaces - racesCompleted;
+    const maxPossiblePoints = remainingRaces * 44; // 25 points for 1st place + 18 points for 2nd place + 1 point for fastest lap
+    maxPoints[team] = chasingTeams[team] + maxPossiblePoints;
+  }
+
+  // Check if the leading team has mathematically won the championship
+  const leadingTeamMaxPoints = maxPoints[leadingTeamName];
+
+  if (leadingTeamMaxPoints > Math.max(...Object.values(maxPoints))) {
+    alert(`Congratulations! ${leadingTeamName} has mathematically won the championship with a maximum of ${leadingTeamMaxPoints} points.`);
+  } else {
+    alert(`${leadingTeamName} has not mathematically won the championship yet.`);
+  }
+}
+
+// Call the function to initiate the calculation
+calculateChampionship();
